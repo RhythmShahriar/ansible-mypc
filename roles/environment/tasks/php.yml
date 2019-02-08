@@ -3,8 +3,8 @@
   with_items:
     - php
     - libapache2-mod-php
-    - php-dev
-    - libmcrypt-dev
+    - php-environment
+    - libmcrypt-environment
     - php-pear
     - php-mysql
 
