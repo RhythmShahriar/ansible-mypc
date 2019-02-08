@@ -1,0 +1,11 @@
+- name: Check if wp-cli exists
+  stat: path="/usr/local/bin/wp"
+  register: wpcli_exist
+
+- name: Install wp-cli
+  get_url:
+    url="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+    dest="/usr/local/bin/wp"
+    force_basic_auth=yes
+    mode=0755
+  when: not wpcli_exist.stat.exists

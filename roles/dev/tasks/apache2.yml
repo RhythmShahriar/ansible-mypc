@@ -1,0 +1,15 @@
+- name: Install apache2
+  apt:
+    name: apache2
+    update_cache: yes
+    state: present
+
+- name: Enabled mod_rewrite on apache2
+  apache2_module:
+    name: rewrite
+    state: present
+
+- name: Restart apache2 service
+  service:
+    name: apache2
+    state: restarted

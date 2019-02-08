@@ -1,0 +1,20 @@
+- name: Install PHP & modules
+  apt: name={{ item }} state=present
+  with_items:
+    - php
+    - libapache2-mod-php
+    - php-dev
+    - libmcrypt-dev
+    - php-pear
+    - php-mysql
+
+- name: Modify Apache DirectoryIndex specification
+  lineinfile:
+    dest: /etc/apache2/mods-enabled/dir.conf
+    regexp: '^DirectoryIndex'
+    line: 'DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm'
+
+- name: Restart apache2
+  service:
+    name: apache2
+    state: restarted

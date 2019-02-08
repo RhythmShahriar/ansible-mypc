@@ -1,0 +1,8 @@
+- include: python.yml
+- include: apache2.yml
+- include: php.yml
+- include: wp_cli.yml
+- include: nodejs.yml
+- include: docker.yml
+- include: composer.yml
+- include: vpn.yml
