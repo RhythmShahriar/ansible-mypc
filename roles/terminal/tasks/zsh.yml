@@ -1,0 +1,45 @@
+- name: Install git and zsh
+  apt: name={{ item }} state=present
+  with_items:
+    - git
+    - zsh
+    - curl
+    - extract
+    - git-core
+    - git-extras
+    - yum
+
+- name: Install Oh my zsh with curl
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+- name: Change shell to zsh
+  shell: chsh -s `which zsh`
+
+- name: Download zsh-autosuggestions
+  git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    clone: yes
+
+- name: Download zsh-syntax-highlighting
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    clone: yes
+
+- name: Update ZSH Plugins in .zshrc
+  replace:
+    dest: ~/.zshrc
+    regexp: '^plugins=\(([^)]*)\)'
+    replace: 'plugins=(
+                git
+                zsh-autosuggestions
+                extract
+                git-extras
+                docker
+                vagrant
+                zsh-syntax-highlighting
+              )'
+
+- name: Source zshrc
+  shell: source ~/.zshrc

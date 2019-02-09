@@ -4,4 +4,6 @@
 - include: wp_cli.yml
 - include: nodejs.yml
 - include: composer.yml
+- include: docker.yml
+- include: vagrant.yml
 - include: vpn.yml

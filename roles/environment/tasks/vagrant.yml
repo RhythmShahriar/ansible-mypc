@@ -1,0 +1,4 @@
+- name: Install vagrant package
+  apt:
+    name: vagrant
+    state: present
