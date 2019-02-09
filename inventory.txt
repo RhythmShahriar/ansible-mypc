@@ -1,0 +1,1 @@
+ubuntu_local ansible_host=[HOST_IP] ansible_connection=ssh ansible_user=[USER] ansible_ssh_pass=[PASSWORD]
