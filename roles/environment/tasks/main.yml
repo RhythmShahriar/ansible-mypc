@@ -3,6 +3,5 @@
 - include: php.yml
 - include: wp_cli.yml
 - include: nodejs.yml
-- include: docker.yml
 - include: composer.yml
 - include: vpn.yml
