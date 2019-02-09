@@ -1,5 +1,10 @@
+- name: Update all packages
+  apt:
+    update_cache: yes
+    upgrade: dist
+
 - name: Install Python & dependencies
-  apt: name={{ item }} state=present
+  raw: sudo apt -y install {{item}}
   with_items:
     - python
     - python-setuptools
