@@ -1,0 +1,86 @@
+# Install PHPStorm
+- name: Test if folder exist
+  stat:
+    path={{ phpstorm_dir }}
+  register: phpstorm_exist
+
+- name: Download phpStorm archive
+  get_url:
+    url=http://download.jetbrains.com/webide/PhpStorm-{{ phpstorm_version }}.tar.gz
+    dest={{ phpstorm_archive }}
+  when: phpstorm_exist.stat.exists == False
+
+- name: Decompress phpStorm archive
+  unarchive:
+    src={{ phpstorm_archive }}
+    dest={{ phpstorm_install_dir }}
+    copy=no
+  when: phpstorm_exist.stat.exists == False
+
+- name: Move phpStorm folder
+  shell:
+    mv {{ phpstorm_install_dir }}/PhpStorm-* {{ phpstorm_dir }}
+    creates="{{ phpstorm_dir }}"
+
+- name: Create symlink
+  file:
+    src={{ phpstorm_dir }}/bin/phpstorm.sh
+    dest={{ phpstorm_bin }}
+    state=link
+
+- name: Remove phpStorm archive
+  file:
+    path={{ phpstorm_archive }}
+    state=absent
+
+- name: Get stat of phpstorm
+  stat:
+    path="{{ phpstorm_bin }}"
+  register: phpstorm_stat
+
+- name: Test if phpstorm is executable
+  fail:
+    msg="{{ phpstorm_bin }} isn't executable"
+  when: phpstorm_stat.stat.xgrp != true
+
+# Install PyCharm
+- name: Install needed dependancies
+  action: "{{ ansible_pkg_mgr }} state=present name={{ item }}"
+  with_items:
+    - tar
+    - unzip
+
+- name: Find latest version
+  uri:
+    url: '{{jetbrains_product_url}}'
+    return_content: yes
+    validate_certs: no
+    body_format: json
+  register: pycharm_releases_response
+  when: pycharm_version == '{{pycharm_version}}'
+
+- set_fact:
+    pycharm_version: "{{ pycharm_releases_response.json.PCC.0.version }}"
+  when: pycharm_version == '{{pycharm_version}}'
+
+- name: Download pycharm
+  get_url: url={{pycharm_url}} dest={{pycharm_tmp}}
+
+- name: Ensure installation directory
+  file:
+    state=directory
+    mode=0755
+    dest={{pycharm_install_dir}}
+
+- name: Unarchive pycharm
+  unarchive:
+    copy=no
+    src={{pycharm_tmp}}
+    dest={{pycharm_install_dir}}
+
+- name: Retreive pycharm dir name
+  command: ls -t {{pycharm_install_dir}}
+  register: result_pycharm_folder_name
+
+- name: Ensure pycharm bin exist
+  template: src=pycharm.j2 dest=/usr/bin/pycharm mode=755

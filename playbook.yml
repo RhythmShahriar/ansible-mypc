@@ -1,7 +1,9 @@
 -
   name: Setup My Pc 😁
   hosts: 127.0.0.1
+  become: yes
   connection: local
+  gather_facts: no
   roles:
     - environment
     - browsers

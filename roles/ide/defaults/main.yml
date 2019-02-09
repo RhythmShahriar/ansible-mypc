@@ -1,0 +1,15 @@
+phpstorm_version: 2018.3
+phpstorm_install_dir: /opt
+phpstorm_bin: /usr/local/bin/phpstorm
+phpstorm_dir: "{{ phpstorm_install_dir }}/phpstorm-{{ phpstorm_version }}"
+phpstorm_archive: "{{ phpstorm_dir }}.tar.gz"
+
+pycharm_version: 2018.3.4
+pycharm_tmp: /tmp/pycharm-{{pycharm_version}}.tar.gz
+pycharm_install_dir: /opt/pycharm
+jetbrains_product_url: "https://data.services.jetbrains.com/products/releases?code=PCC%2CPCP&latest=true&type=release"
+pycharm_url: "http://download.jetbrains.com/python/pycharm-community-{{pycharm_version}}.tar.gz"
+pycharm_folder_name: "{{result_pycharm_folder_name.stdout_lines.0}}"
+
+vscode_install: true
+vscode_insiders_install: false
