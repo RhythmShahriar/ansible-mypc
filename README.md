@@ -7,3 +7,5 @@ A pet project to setup local environment of Ubuntu using Ansible
 
 ##### COMMAND
 ``` ansible-playbook playbook.yml --user [USERNAME] --ask-pass --become  --ask-become-pass```
+
+``` ansible-playbook playbook.yml --become --ask-become-pass -i inventory.txt```
